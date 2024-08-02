@@ -1,0 +1,55 @@
+import datetime
+
+class Expense:
+    def __init__(self, amount, category, description=""):
+        self.amount = amount
+        self.category = category
+        self.description = description
+        self.date = datetime.datetime.now()
+
+class ExpenseTracker:
+    def __init__(self):
+        self.expenses = []
+
+    def add_expense(self, amount, category, description=""):
+        expense = Expense(amount, category, description)
+        self.expenses.append(expense)
+        print(f"Added expense: {amount} in {category}")
+
+    def generate_report(self):
+        report = {}
+        for expense in self.expenses:
+            if expense.category not in report:
+                report[expense.category] = 0
+            report[expense.category] += expense.amount
+
+        total = 0
+        print("\nExpense Report:")
+        for category, amount in report.items():
+            print(f"{category}: ${amount:.2f}")
+            total += amount
+        print(f"Total: ${total:.2f}")
+
+def main():
+    tracker = ExpenseTracker()
+
+    while True:
+        print("\n1. Add Expense")
+        print("\n2. Generate Report")
+        print("\n3. Exit")
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            amount = float(input("Enter the amount: "))
+            category = input("Enter the category: ")
+            description = input("Enter the description (optional): ")
+            tracker.add_expense(amount, category, description)
+        elif choice == "2":
+            tracker.generate_report()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid choice, please try again.")
+
+if __name__ == "__main__":
+    main()
